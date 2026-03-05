@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base reset ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background-color: #07070d;
+  color: #e2e4f0;
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  /* Subtle dual-radial background glow */
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(99,102,241,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 30% at 85% 5%, rgba(168,85,247,0.06) 0%, transparent 55%);
+}
+
+/* ── Custom scrollbar ────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #0f0f1a; }
+::-webkit-scrollbar-thumb { background: #2a2a40; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3d3d5c; }
+
+/* ── Drag overlay ────────────────────────────────── */
+.drag-overlay-wrapper {
+  pointer-events: none;
+  transform: rotate(2.5deg) scale(1.06);
+  filter: drop-shadow(0 16px 32px rgba(0,0,0,0.7))
+          drop-shadow(0 0 0 2px rgba(99,102,241,0.6));
+  opacity: 0.95;
+}
+
+/* ── Droppable "is-over" highlight ───────────────── */
+.items-area.is-over {
+  background: rgba(99,102,241,0.07);
+  outline: 2px dashed rgba(99,102,241,0.45);
+  border-radius: 8px;
+}
+
+.bank-area.is-over {
+  background: rgba(99,102,241,0.06);
+  outline: 2px dashed rgba(99,102,241,0.35);
+}
+
+/* ── Item card ───────────────────────────────────── */
+.tier-item {
+  position: relative;
+  cursor: grab;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  touch-action: none;
+}
+.tier-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+.tier-item.is-dragging { opacity: 0.25; }
+
+/* ── Modal backdrop ──────────────────────────────── */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(7,7,13,0.82);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+.modal-box {
+  animation: slideUp 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes slideUp {
+  from { transform: translateY(20px) scale(0.97); opacity: 0 }
+  to   { transform: translateY(0)    scale(1);    opacity: 1 }
+}
+
+/* ── Button base ─────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+.btn:active { transform: scale(0.96); }
+
+.btn-primary {
+  background: #6366f1;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(99,102,241,0.35);
+}
+.btn-primary:hover {
+  background: #7577f5;
+  box-shadow: 0 0 28px rgba(99,102,241,0.55);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.06);
+  color: #b0b3cc;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.1); color: #e2e4f0; }
+
+.btn-danger {
+  background: rgba(239,68,68,0.15);
+  color: #f87171;
+  border: 1px solid rgba(239,68,68,0.25);
+}
+.btn-danger:hover { background: rgba(239,68,68,0.28); }
+
+/* ── Input base ──────────────────────────────────── */
+.input-base {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #e2e4f0;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.75rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.input-base:focus {
+  outline: none;
+  border-color: rgba(99,102,241,0.6);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
+}
+.input-base::placeholder { color: rgba(160,162,190,0.5); }
